@@ -1,4 +1,3 @@
-
 // 1. Follow the recipe instructions inside the Segment class.
 
 // The Segment class will be used to represent each part of the moving snake.
@@ -10,8 +9,8 @@ class Segment {
   int yLocation;
   // 3. Add a constructor with parameters to initialize each variable.
   Segment(int x, int y){
-    xLocation = x;
-    yLocation = y;
+    this.xLocation = x;
+    this.yLocation = y;
   }
 
   // 4. Add getter and setter methods for both the x and y member variables.
@@ -47,8 +46,8 @@ int food = 1;
 
 
 // 8. Create and initialize foodX and foodY variables to hold the location of the food.
-int foodX = ((int)random(50*10));
-int foodY = ((int)random(50*10));
+int foodX = 50 * ((int)random(10));
+int foodY = 50 * ((int)random(10));
 // (Hint: use the random method to set both the x and y to random locations within the screen size (500 by 500).)
 
 //int foodX = ((int)random(50)*10);
@@ -196,7 +195,7 @@ void collision() {
  **/
 
 //  1. Create and initialize an ArrayList of Segments. (This will be your snake tail!)
-ArrayList segs = new ArrayList();
+ArrayList<Segment> tail = new ArrayList<Segment>();
 
 
 // 2. Complete the missing parts of the manageTail method below and call it in the draw method.
@@ -207,14 +206,19 @@ void manageTail() {
   drawTail();
   checkTailCollision();
   // Add a new Segment to your ArrayList that has the same X and Y as the head of your snake.
-
+  tail.add(new Segment(head.getX(), head.getY()));
   // To keep your tail the right length:
   // while the tail size is greater than the number of food pieces eaten, remove the first Segment in your tail.
-
+  while(tail.size() > food){
+    tail.remove(0);
+  }
 }
 
 void drawTail() {
     // Draw a 10 by 10 rectangle for each Segment in your snake ArrayList.
+    for(Segment pos: tail){
+       rect(pos.getX(),pos.getY(), 10, 10);
+    }
 }
 
 
@@ -223,8 +227,11 @@ void drawTail() {
 void checkTailCollision() {
 
   // If your head has the same location as one of your segments...
-
+  for (Segment pos: tail){
+    if(head.getX() == pos.getX() && head.getY() == pos.getY()){
   // reset your food variable
-
+    food = 1;
+    }
+  }
   //Call this method at the beginning of your manageTail method.
-}
+} 
